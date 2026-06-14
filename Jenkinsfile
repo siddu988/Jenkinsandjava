@@ -3,9 +3,9 @@ pipeline {
 
     environment {
         GIT_REPO = 'https://github.com/siddu988/Jenkinsandjava.git'
-        AWS_REGION = 'us-east-1'
+        AWS_REGION = 'us-west-2'
         ECR_REPO_NAME = 'project-test1'
-        ECR_REPO_URI = '333095588216.dkr.ecr.us-east-1.amazonaws.com/project-test1'
+        ECR_REPO_URI = '919333998358.dkr.ecr.us-west-2.amazonaws.com/project-test1'
         IMAGE_TAG = 'latest'
         IMAGE_URI = "${ECR_REPO_URI}:${IMAGE_TAG}"
     }
@@ -34,8 +34,8 @@ pipeline {
                 script {
                     sh '''
                         echo "Logging into AWS ECR..."
-                        aws ecr get-login-password --region us-east-1 | \
-                        docker login --username AWS --password-stdin 333095588216.dkr.ecr.us-east-1.amazonaws.com
+                        aws ecr get-login-password --region us-west-2 | \
+                        docker login --username AWS --password-stdin 919333998358.dkr.ecr.us-west-2.amazonaws.com
                     '''
                 }
             }
@@ -63,6 +63,17 @@ pipeline {
             }
         }
 
+         stage('Deploy to Kubernetes') {
+            steps {
+                sh '''
+                    echo "Deploying to Kubernetes..."
+
+                    kubectl apply -f deployment.yaml
+                    kubectl apply -f service.yaml
+                    kubectl rollout restart deployment/helloworld
+                '''
+            }
+        }
     }
 
     post {
@@ -72,5 +83,7 @@ pipeline {
         failure {
             echo "Pipeline failed"
         }
+       
+        
     }
 }
