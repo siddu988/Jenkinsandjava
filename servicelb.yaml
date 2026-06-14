@@ -5,8 +5,9 @@ metadata:
 spec:
   selector:
     app: java-app
-  type: LoadBalancer  # Automatically creates NodePort & ClusterIP
+  type: NodePort  # Automatically creates NodePort & ClusterIP
   ports:
     - protocol: TCP
       port: 80           # LoadBalancer listens on port 80
-      targetPort: 8080   # Forward traffic to pod on 8080
+      targetPort: 8080 
+      nodePort: 30080 # Forward traffic to pod on 8080
