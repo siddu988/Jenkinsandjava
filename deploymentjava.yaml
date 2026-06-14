@@ -14,8 +14,12 @@ spec:
       labels:
         app: java-app
     spec:
+      imagePullSecrets:
+      - name: ecr-secret
+
       containers:
-        - name: java-app
-          image: 919333998358.dkr.ecr.us-west-2.amazonaws.com/project-test1:latest
-          ports:
-            - containerPort: 8080
+      - name: java-app
+        image: 919333998358.dkr.ecr.us-west-2.amazonaws.com/project-test1:latest
+        ports:
+        - containerPort: 8080
+
