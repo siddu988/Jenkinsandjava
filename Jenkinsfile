@@ -63,16 +63,14 @@ pipeline {
             }
         }
 
-         stage('Deploy to Kubernetes') {
+        stage('Deploy to Kubernetes') {
             steps {
                 sh '''
-                    echo "Deploying to Kubernetes..."
-
-                    kubectl apply -f deployment.yaml
-                    kubectl apply -f service.yaml
-                    kubectl rollout restart deployment/helloworld
-                '''
-            }
+                   kubectl apply -f deploymentjava.yaml
+                   kubectl apply -f servicelb.yaml
+                   kubectl rollout restart deployment/java-app
+               '''
+           }
         }
     }
 
